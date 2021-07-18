@@ -1,0 +1,2 @@
+rootProject.name = "Study04_SharedPreferences"
+include ':app'

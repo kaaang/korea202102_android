@@ -1,0 +1,2 @@
+rootProject.name = "Study07_Carmera"
+include ':app'
