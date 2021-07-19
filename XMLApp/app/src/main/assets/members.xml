@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<members>
+    <member>
+       <name>kang</name>
+       <phone>010</phone>
+       <addr>seoul</addr>
+    </member>
+    <member>
+       <name>shin</name>
+       <phone>9539</phone>
+       <addr>gwang</addr>
+    </member>
+    <member>
+       <name>hyeok</name>
+       <phone>2429</phone>
+       <addr>jin</addr>
+    </member>
+    <member>
+       <name>hyeok</name>
+       <phone>2429</phone>
+       <addr>jin</addr>
+    </member>
+</members>
