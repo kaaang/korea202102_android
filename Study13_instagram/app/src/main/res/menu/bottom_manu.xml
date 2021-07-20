@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_a"
+        android:enabled="true"
+        android:icon="@drawable/ic_android_black_24dp"
+        android:title="a"/>
+    <item
+        android:id="@+id/action_b"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_accessibility_24"
+        android:title="b"/>
+    <item
+        android:id="@+id/action_c"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_adb_24"
+        android:title="c"/>
+    <item
+        android:id="@+id/action_d"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_add_box_24"
+        android:title="d"/>
+    <item
+        android:id="@+id/action_e"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_airplanemode_active_24"
+        android:title="e"/>
+</menu>

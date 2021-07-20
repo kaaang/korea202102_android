@@ -1,0 +1,2 @@
+rootProject.name = "Study11_Spinner"
+include ':app'

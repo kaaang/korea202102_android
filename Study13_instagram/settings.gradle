@@ -1,0 +1,2 @@
+rootProject.name = "Study13_instagram"
+include ':app'
