@@ -1,0 +1,2 @@
+rootProject.name = "Study14_Selector"
+include ':app'
