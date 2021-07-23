@@ -21,4 +21,11 @@ public class ListFragment extends Fragment {
         View view=inflater.inflate(R.layout.fragment_list, container, false);//인플레이션
         return view;
     }
+
+    //웹 서버로부터 데이터 가져오기
+    public void getList(){
+
+    }
+
+
 }

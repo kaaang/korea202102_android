@@ -1,22 +1,35 @@
 package com.koreait.boardapp.pages;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.koreait.boardapp.MainActivity;
 import com.koreait.boardapp.R;
+
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class WriteFragment extends Fragment implements View.OnClickListener {
     String TAG=this.getClass().getName();
 
     Button bt_list,bt_write;
     MainActivity mainActivity;
+
+    Handler handler;
 
     @Override
     //반환되는 View는 현재의 프레그먼트에서 보여줄 뷰를 의미
@@ -28,8 +41,80 @@ public class WriteFragment extends Fragment implements View.OnClickListener {
         bt_list.setOnClickListener(this);
         bt_write.setOnClickListener(this);
         mainActivity=(MainActivity) this.getActivity();//호스트 액티비티 얻어두기
+
+        handler = new Handler(){
+            public void handleMessage(@NonNull Message message) {
+                //메인 쓰레드에 의해 제어할 영역
+                AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
+                builder.setTitle("등록 결과");
+                Bundle bundle = message.getData();
+                builder.setMessage(bundle.getString("msg"));
+
+                builder.show();
+            }
+        };
+
         return view;
     }
+
+    //웹 서버에 등록 요청
+    public void regist(){
+        URL url=null;
+        HttpURLConnection con=null;
+        BufferedWriter buffw=null;
+
+        try {
+            url=new URL("http://220.72.128.42:8888/client/cs/board/regist");
+            con=(HttpURLConnection) url.openConnection();
+            con.setRequestMethod("POST");//요청 방법 지정(post, get, ....)
+            con.setRequestProperty("Content-Type","application/json;charset=utf-8");
+            con.setDoOutput(true);//post방식은 데이터를 전송함이 목적이다
+            //string형으로 서버에 json문자열을 전송하자
+            StringBuilder sb = new StringBuilder();
+            sb.append("{");
+            sb.append("\"title\":\"안드로이드제목\",");
+            sb.append("\"writer\":\"강신혁\",");
+            sb.append("\"content\":\"냉무\"");
+            sb.append("}");
+
+            //con 객체로부터 스트림을 뽑은 후, 데이터를 출력
+            buffw = new BufferedWriter(new OutputStreamWriter(con.getOutputStream(),"UTF-8"));
+            buffw.write(sb.toString()+"\n");
+            buffw.flush();
+
+            int code = con.getResponseCode();//서버의 응답 코드 200등등
+            Log.d("WriteFragment","등록후 결과 코드"+code);
+
+            String msg="";
+            if(code==200){
+                msg="등록성공";
+            }else
+            {
+                msg="등록실패";
+            }
+            Message message = new Message();
+            Bundle bundle = new Bundle();
+            bundle.putString("msg",msg);
+            message.setData(bundle);
+            handler.sendMessage(message);
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            if(buffw!=null){
+                try {
+                    buffw.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+
+
 
     @Override
     public void onClick(View v) {
@@ -38,6 +123,12 @@ public class WriteFragment extends Fragment implements View.OnClickListener {
             mainActivity.showPage(0);
         }else if(v.getId()==R.id.bt_write){
             Log.d(TAG, "등록 할까요?");
+            Thread thread = new Thread(){
+                public void run() {
+                    regist();
+                }
+            };
+            thread.start();
         }
     }
 
