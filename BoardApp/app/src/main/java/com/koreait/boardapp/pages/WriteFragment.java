@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -25,6 +26,10 @@ import java.net.URL;
 
 public class WriteFragment extends Fragment implements View.OnClickListener {
     String TAG=this.getClass().getName();
+    String ip="220.72.128.42";
+    int port=8888;
+
+    EditText t_title,t_writer,t_content;
 
     Button bt_list,bt_write;
     MainActivity mainActivity;
@@ -38,6 +43,9 @@ public class WriteFragment extends Fragment implements View.OnClickListener {
 
         bt_list=view.findViewById(R.id.bt_list);
         bt_write=view.findViewById(R.id.bt_write);
+        t_title=view.findViewById(R.id.t_title);
+        t_writer=view.findViewById(R.id.t_writer);
+        t_content=view.findViewById(R.id.t_content);
         bt_list.setOnClickListener(this);
         bt_write.setOnClickListener(this);
         mainActivity=(MainActivity) this.getActivity();//호스트 액티비티 얻어두기
@@ -64,7 +72,7 @@ public class WriteFragment extends Fragment implements View.OnClickListener {
         BufferedWriter buffw=null;
 
         try {
-            url=new URL("http://220.72.128.42:8888/client/cs/board/regist");
+            url=new URL("http://"+ip+":"+port+"/rest/board");
             con=(HttpURLConnection) url.openConnection();
             con.setRequestMethod("POST");//요청 방법 지정(post, get, ....)
             con.setRequestProperty("Content-Type","application/json;charset=utf-8");
@@ -72,9 +80,9 @@ public class WriteFragment extends Fragment implements View.OnClickListener {
             //string형으로 서버에 json문자열을 전송하자
             StringBuilder sb = new StringBuilder();
             sb.append("{");
-            sb.append("\"title\":\"안드로이드제목\",");
-            sb.append("\"writer\":\"강신혁\",");
-            sb.append("\"content\":\"냉무\"");
+            sb.append("\"title\":\""+t_title.getText().toString()+"\",");
+            sb.append("\"writer\":\""+t_writer.getText()+"\",");
+            sb.append("\"content\":\""+t_content.getText()+"\"");
             sb.append("}");
 
             //con 객체로부터 스트림을 뽑은 후, 데이터를 출력

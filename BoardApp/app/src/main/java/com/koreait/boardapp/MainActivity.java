@@ -11,11 +11,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.koreait.boardapp.R;
+import com.koreait.boardapp.pages.ListFragment;
 
 public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
     ViewPager2 viewPager;
     PageAdapter pageAdapter;
+    BoardDAO boardDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +29,14 @@ public class MainActivity extends AppCompatActivity {
         pageAdapter=new PageAdapter(this);
         viewPager.setAdapter(pageAdapter);
 
-        setSupportActionBar(toolbar);
-        showPage(2);
+
+        //viewPager2의 경우 메서드 호출로 스와이핑을 scroll을 비활성화 시킬 수 있을듯
+        viewPager.setUserInputEnabled(false);
+        this.setSupportActionBar(toolbar);
+
+
+
+        showPage(0);
 
     }
 
