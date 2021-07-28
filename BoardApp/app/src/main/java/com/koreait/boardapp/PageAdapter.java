@@ -11,15 +11,14 @@ import com.koreait.boardapp.pages.WriteFragment;
 
 
 public class PageAdapter extends FragmentStateAdapter {
+    MainActivity mainActivity;
+    Fragment[] pages;
 
-    Fragment[] pages=new Fragment[3];
 
     public PageAdapter(FragmentActivity fragmentActivity) {
         super(fragmentActivity);
-        pages[0]=new ListFragment();
-        pages[1]=new WriteFragment();
-        pages[2]=new ContentFragment();
-
+        this.mainActivity=(MainActivity) fragmentActivity;
+        this.pages=this.mainActivity.pages;
     }
 
 
